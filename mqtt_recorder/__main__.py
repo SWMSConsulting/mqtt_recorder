@@ -147,6 +147,19 @@ parser.add_argument(
     help='Set csv.field_size_limit(VALUE)'
 )
 
+parser.add_argument(
+    '--replace_from',
+    type=str,
+    default=None,
+    help='String in topic to replace during replay'
+)
+parser.add_argument(
+    '--replace_to',
+    type=str,
+    default=None,
+    help='String to use as replacement in topic during replay'
+)
+
 def wait_for_keyboard_interrupt():
     try:
         while True:
@@ -182,7 +195,11 @@ def main():
         recorder.stop_recording()
     elif args.mode == 'replay':
         try:
-            recorder.start_replay(args.loop)
+            recorder.start_replay(
+                args.loop,
+                replace_from=args.replace_from,
+                replace_to=args.replace_to
+            )
         except KeyboardInterrupt:
             pass
     else:
